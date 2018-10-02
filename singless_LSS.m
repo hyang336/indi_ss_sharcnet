@@ -1,6 +1,4 @@
 function singless_LSS(bids_dir)
-%for server, add SPM path
-addpath(genpath('~/matlab_tools/SPM'));
 %so far putting most output in temp dir
 
 %only works when you run the whole script

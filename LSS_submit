@@ -1,5 +1,17 @@
-subs=$(cut -f 1 participants.tsv)
-for sub in $subs
-do
-neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($sub); exit;" '
-done
+#!/bin/bash
+usage(){
+echo "usage: LSS_submit <bids_dir>"
+}
+bids_dir=$1
+if [ "$#" -eq 1 ]
+then
+	subs=$(cut -f 1 $bids_dir/participants.tsv)
+	for sub in $subs
+	do
+	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($sub); exit;" '
+	done;;
+else
+usage
+exit 1
+fi
+
