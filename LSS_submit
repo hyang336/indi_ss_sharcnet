@@ -1,0 +1,5 @@
+subs=$(cut -f 1 participants.tsv)
+for sub in $subs
+do
+neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($sub); exit;" '
+done
