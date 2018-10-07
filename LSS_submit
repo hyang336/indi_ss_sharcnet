@@ -13,7 +13,7 @@ then
 	do
 	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
 	mkdir $sub_dir #create subject specific directory under bids_dir/derivatives/singletral_GLM/
-	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($bids_dir,$sub); exit;" '
+	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath('~/home/matlab')); singless_LSS($bids_dir,$sub); exit;" '
 	done
 else
 usage
