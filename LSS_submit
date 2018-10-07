@@ -6,9 +6,7 @@ bids_dir=$1
 if [ "$#" -eq 1 ]
 then
 	mkdir -p $bids_dir/derivatives/singletrial_GLM
-	firstcol=$(cut -f 1 $bids_dir/participants.tsv)
-	echo $firstcol > $bids_dir/derivatives/singletrial_GLM/subject_ID
-	subs=$(tail -n +2 $bids_dir/derivatives/singletrial_GLM/subject_ID)
+	subs=$(cut -f 1 $bids_dir/participants.tsv|tail -n +2)
 	for sub in $subs
 	do
 	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
