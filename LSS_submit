@@ -5,11 +5,16 @@ echo "usage: LSS_submit <bids_dir>"
 bids_dir=$1
 if [ "$#" -eq 1 ]
 then
-	subs=$(cut -f 1 $bids_dir/participants.tsv)
+	mkdir $bids_dir/derivatives/singletrial_GLM
+	firstcol=$(cut -f 1 $bids_dir/participants.tsv)
+	echo $firstcol > $bids_dir/derivatives/singletrial_GLM/subject_ID
+	subs=$(tail -n +2 $bids_dir/derivatives/singletrial_GLM/subject_ID)#get rid of the header
 	for sub in $subs
 	do
-	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($sub); exit;" '
-	done;;
+	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
+	mkdir $sub_dir #create subject specific directory under bids_dir/derivatives/singletral_GLM/
+	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath(<yourRepo>)); singless_LSS($bids_dir,$sub); exit;" '
+	done
 else
 usage
 exit 1
