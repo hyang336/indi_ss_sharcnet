@@ -5,14 +5,14 @@ echo "usage: LSS_submit <bids_dir>"
 bids_dir=$1
 if [ "$#" -eq 1 ]
 then
-	mkdir $bids_dir/derivatives/singletrial_GLM
+	mkdir -p $bids_dir/derivatives/singletrial_GLM
 	firstcol=$(cut -f 1 $bids_dir/participants.tsv)
 	echo $firstcol > $bids_dir/derivatives/singletrial_GLM/subject_ID
 	subs=$(tail -n +2 $bids_dir/derivatives/singletrial_GLM/subject_ID)
 	for sub in $subs
 	do
 	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
-	mkdir $sub_dir 
+	mkdir -p $sub_dir 
 	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath('~/home/matlab')); singless_LSS($bids_dir,$sub); exit;" '
 	done
 else
