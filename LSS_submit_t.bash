@@ -11,7 +11,7 @@ then
 	do
 	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
 	mkdir -p $sub_dir 
-	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath("'/project/6007967/hyang336/matlab/'")); singless_LSS("'$bids_dir,$sub'"); exit;"' 
+	neurogliaSubmit -t -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath("'/project/6007967/hyang336/matlab/'")); singless_LSS("'$bids_dir,$sub'"); exit;"' 
 	done
 else
 usage
