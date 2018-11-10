@@ -42,9 +42,9 @@ folderpath=erase(git_file,s(1).name);
                 %change the output dir in matlabbatch to subject-specific and run-specific temp
                 %dir
                 temp.matlabbatch{1}.spm.stats.fmri_spec.dir=cellstr(run_temp);
-                run=regexp(substr.run{j},'run-\w*_bold_','match');%find each run to load the events.tsv
+                run=regexp(substr.run{j},'run-\d\d_','match');%find each run to load the events.tsv
                 substr.runevent{j}=load_tsv(bids_dir,sub,run{1},task{1});%store the loaded event files in sub.runevent
-                conf_name=strcat(bids_dir,'/derivatives/fmriprep_1.0.7/fmriprep/',sub,'/func/',sub,'_',task{1},run{1},'confounds.tsv');%use run{1} since it's iteratively defined
+                conf_name=strcat(bids_dir,'/derivatives/fmriprep_1.0.7/fmriprep/',sub,'/func/',sub,'_',task{1},run{1},'bold_','confounds.tsv');%use run{1} since it's iteratively defined
                 substr.runconf{j}=tdfread(conf_name,'tab');
                 %% step 1 generate alltrialregressor (convolve with hrf)
                     %point the ...sess.scans to the correct file
