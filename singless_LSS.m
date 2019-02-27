@@ -1,4 +1,8 @@
-function singless_LSS(bids_dir,sub)
+function singless_LSS(bids_dir,sub,expstart_vol)
+%updated 20190227, added another input variable to indicate the volume when the
+%experiement starts (i.e. if there are 4 dummy scans, the experiment starts at the 5th
+%TR/trigger/volume). In this version every participant in every run has to have the same number of
+%dummy scans. 
 %so far putting most output in temp dir
 sub_dir=strcat(bids_dir,'/derivatives/singletrial_GLM/',sub);
 %only works when you run the whole script
@@ -49,7 +53,7 @@ folderpath=erase(git_file,s(1).name);
                 %% step 1 generate alltrialregressor (convolve with hrf)
                     %point the ...sess.scans to the correct file
                     %specify each time slice in the nii file
-                    slice=(1:length(substr.runexp{j}));
+                    slice=(expstart_vol:length(substr.runexp{j}));
                     slice=cellstr(num2str(slice'));
                     slice=cellfun(@strtrim,slice,'UniformOutput',false);%get rid of the white spaces
                     comma=repmat(',',length(substr.runexp{j}),1);
