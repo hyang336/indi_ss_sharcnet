@@ -1,10 +1,10 @@
-function singless_LSS(bids_dir,sub,expstart_vol)
+function singless_LSS(bids_dir,output,sub,expstart_vol)
 %updated 20190227, added another input variable to indicate the volume when the
 %experiement starts (i.e. if there are 4 dummy scans, the experiment starts at the 5th
 %TR/trigger/volume). In this version every participant in every run has to have the same number of
 %dummy scans. 
 %so far putting most output in temp dir
-sub_dir=strcat(bids_dir,'/derivatives/singletrial_GLM/',sub);
+sub_dir=strcat(output,'/singletrial_GLM/',sub);
 %only works when you run the whole script
 git_file=mfilename('fullpath');
 s=dbstack();

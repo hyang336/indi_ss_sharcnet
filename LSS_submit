@@ -1,10 +1,11 @@
 #!/bin/bash
 usage(){
-echo "usage: LSS_submit <bids_dir> <exp_start volume>"
+echo "usage: LSS_submit <bids_dir> <output_dir> <exp_start volume>"
 }
 bids_dir=$1
-expstart_vol=$2
-if [ "$#" -eq 1 ]
+output_dir=$3
+expstart_vol=$3
+if [ "$#" -eq 3 ]
 then
 	mkdir -p $bids_dir/derivatives/singletrial_GLM
 	subs=$(cut -f 1 $bids_dir/participants.tsv|tail -n +2)
@@ -12,7 +13,8 @@ then
 	do
 	sub_dir="$bids_dir/derivatives/singletrial_GLM/$sub"
 	mkdir -p $sub_dir 
-	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath('"'/project/6007967/hyang336/matlab/'"')); singless_LSS('"'$bids_dir'"','"'$sub'"','"'$expstart_vol'"'); exit;"' 
+	neurogliaSubmit -j LongSkinny 'matlab -nosplash -nodisplay -r "addpath(genpath('"'/project/6007967/hyang336/matlab/'"')); singless_LSS('"'$bids_dir'"','"'$output_dir'"','"'$sub'"','"$expstart_vol"'); exit;"' 
+	sleep 3
 	done
 else
 usage
