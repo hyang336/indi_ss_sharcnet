@@ -108,7 +108,7 @@ folderpath=erase(git_file,s(1).name);
                     temp_trial.matlabbatch{1}.spm.stats.fmri_spec.sess.regress(1).name = 'singletrial';
                     temp_trial.matlabbatch{1}.spm.stats.fmri_spec.sess.regress(1).val = singletrialregressor;
                     temp_trial.matlabbatch{1}.spm.stats.fmri_spec.sess.regress(2).name = 'other';
-                    temp_trial.matlabbatch{1}.spm.stats.fmri_spec.sess.regress(2).val = alltrials + motion - singletrialregressor;
+                    temp_trial.matlabbatch{1}.spm.stats.fmri_spec.sess.regress(2).val = alltrials + motion(expstart_vol:end) - singletrialregressor;
                     spm_jobman('run',temp_trial.matlabbatch);
 
                     %% step 4 estimate betas for one trial
