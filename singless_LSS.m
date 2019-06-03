@@ -1,9 +1,12 @@
-function singless_LSS(bids_dir,output,sub,expstart_vol)
+function singless_LSS(bids_dir,fmriprep_foldername,output,sub,expstart_vol)
 %updated 20190227, added another input variable to indicate the volume when the
 %experiement starts (i.e. if there are 4 dummy scans, the experiment starts at the 5th
 %TR/trigger/volume). In this version every participant in every run has to have the same number of
 %dummy scans. 
 %so far putting most output in temp dir
+
+%20190603, added input var to specify fmriprep folder name,
+%assuming it's in derivative under BIDS folder
 sub_dir=strcat(output,'/singletrial_GLM/',sub);
 %only works when you run the whole script
 git_file=mfilename('fullpath');
@@ -19,14 +22,14 @@ folderpath=erase(git_file,s(1).name);
         copyfile(strcat(folderpath,'template_AvsB.mat'), temp_dir); %copy the template matlabbatch into temp dir
 
             %get #runs from each derivatives/fmriprep_1.0.7/fmriprep/subject/func/ folder
-            runkey=fullfile(strcat(bids_dir,'/derivatives/fmriprep_1.0.7/fmriprep/',sub,'/func/'),'*run-*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz');
+            runkey=fullfile(strcat(bids_dir,'/derivatives/',fmriprep_foldername,'/fmriprep/',sub,'/func/'),'*run-*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz');
             runfile=dir(runkey);
             substr=struct();
             substr.run=extractfield(runfile,'name');
             substr.id=sub;
             task=regexp(substr.run{1},'task-\w*_','match');%this will return something like "task-blablabla_"
             %unzip the nii.gz files into the temp directory
-            gunzip(strcat(bids_dir,'/derivatives/fmriprep_1.0.7/fmriprep/',sub,'/func/',substr.run),temp_dir);
+            gunzip(strcat(bids_dir,'/derivatives/',fmriprep_foldername,'/fmriprep/',sub,'/func/',substr.run),temp_dir);
             %load the nii files, primarily to get the number of time points
             substr.runexp=spm_vol(strcat(temp_dir,erase(substr.run,'.gz')));
             
@@ -48,7 +51,7 @@ folderpath=erase(git_file,s(1).name);
                 temp.matlabbatch{1}.spm.stats.fmri_spec.dir=cellstr(run_temp);
                 run=regexp(substr.run{j},'run-\d\d_','match');%find each run to load the events.tsv
                 substr.runevent{j}=load_tsv(bids_dir,sub,run{1},task{1});%store the loaded event files in sub.runevent
-                conf_name=strcat(bids_dir,'/derivatives/fmriprep_1.0.7/fmriprep/',sub,'/func/',sub,'_',task{1},run{1},'bold_','confounds.tsv');%use run{1} since it's iteratively defined
+                conf_name=strcat(bids_dir,'/derivatives/',fmriprep_foldername,'/fmriprep/',sub,'/func/',sub,'_',task{1},run{1},'bold_','confounds.tsv');%use run{1} since it's iteratively defined
                 substr.runconf{j}=tdfread(conf_name,'tab');
                 %% step 1 generate alltrialregressor (convolve with hrf)
                     %point the ...sess.scans to the correct file
