@@ -30,6 +30,8 @@ folderpath=erase(git_file,s(1).name);
             task=regexp(substr.run{1},'task-\w*_','match');%this will return something like "task-blablabla_"
             %unzip the nii.gz files into the temp directory
             gunzip(strcat(bids_dir,'/derivatives/',fmriprep_foldername,'/fmriprep/',sub,'/func/',substr.run),temp_dir);
+            ninfo=niftiinfo(strcat(bids_dir,'/derivatives/',fmriprep_foldername,'/fmriprep/',sub,'/func/',substr.run));
+            TR=ninfo.PixelDimensions(4)
             %load the nii files, primarily to get the number of time points
             substr.runexp=spm_vol(strcat(temp_dir,erase(substr.run,'.gz')));
             
@@ -42,6 +44,7 @@ folderpath=erase(git_file,s(1).name);
                 temp.matlabbatch = cell(1);
                 %% load the template in the software path
                 t=load(strcat(temp_dir,'template_AvsB.mat'));
+                t.matlabbatch{1}.spm.stats.fmri_spec.timing.RT=TR;
                 temp.matlabbatch{1} = t.matlabbatch{1};
                 %make run-specific dir
                 mkdir(temp_dir,strcat('run_', num2str(j)));
