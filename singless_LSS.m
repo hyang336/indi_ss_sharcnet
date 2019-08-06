@@ -1,4 +1,13 @@
 function singless_LSS(bids_dir,fmriprep_foldername,output,sub,expstart_vol)
+
+
+
+bids_dir = '/home/jordandekraker/graham/projects/rrg-akhanf/hyang336/Anna_LSS/BIDS_stable';
+fmriprep_foldername = '/home/jordandekraker/graham/projects/rrg-akhanf/hyang336/Anna_LSS/BIDS_stable/derivatives/fmriprep_1.0.7/fmriprep';
+output = 'test';
+sub = 'sub-BH14';
+expstart_vol = 1;
+
 %updated 20190227, added another input variable to indicate the volume when the
 %experiement starts (i.e. if there are 4 dummy scans, the experiment starts at the 5th
 %TR/trigger/volume). In this version every participant in every run has to have the same number of
